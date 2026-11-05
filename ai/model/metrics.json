@@ -1,0 +1,6 @@
+{
+  "holdout_accuracy": 1.0,
+  "samples": 92,
+  "version": "tfidf-logreg-0.1-prototype",
+  "note": "Academic prototype, tiny dataset."
+}

@@ -1,0 +1,10 @@
+.env
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+dist/
+uploads/
+*.db
+ai/model/model.joblib
+.pytest_cache/

@@ -1,0 +1,34 @@
+# Render Blueprint (https://render.com) - New + > Blueprint > select your GitHub repo.
+databases:
+  - name: truthshield-db
+    databaseName: truthshield
+    user: truthshield
+    plan: free
+services:
+  - type: web
+    name: truthshield-api
+    runtime: docker
+    dockerfilePath: ./docker/backend.Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: { name: truthshield-db, property: connectionString }
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://truthshield-web.onrender.com   # change to your static-site URL
+      - key: DEMO_MODE
+        value: "true"
+      - key: SEED_ON_STARTUP
+        value: "true"
+  - type: web
+    name: truthshield-web
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://truthshield-api.onrender.com/api       # change to your API URL
+    routes:
+      - { type: rewrite, source: /*, destination: /index.html }
